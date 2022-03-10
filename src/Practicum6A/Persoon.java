@@ -1,5 +1,6 @@
 package Practicum6A;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Persoon {
@@ -18,8 +19,8 @@ public class Persoon {
     }
 
 
-    public boolean koop(Game g){
-        if (budget >= g.huidigeWaarde() && !mijnGames.contains(g)){
+    public boolean koop(Game g) {
+        if (budget >= g.huidigeWaarde() && !mijnGames.contains(g)) {
             mijnGames.add(g);
             budget -= g.huidigeWaarde();
             return true;
@@ -28,11 +29,11 @@ public class Persoon {
         return false;
     }
 
-    public boolean verkoop(Game g, Persoon koper){
-        if (!mijnGames.contains(g) )
+    public boolean verkoop(Game g, Persoon koper) {
+        if (!mijnGames.contains(g))
             return false;
         boolean kopen = koper.koop(g);
-        if (kopen){
+        if (kopen) {
             budget += g.huidigeWaarde();
             mijnGames.remove(g);
             return true;
@@ -40,17 +41,26 @@ public class Persoon {
         return false;
     }
 
-    public Game zoekGameOpNaam(String naam){
-        for (Game game:mijnGames)
+    public Game zoekGameOpNaam(String naam) {
+        for (Game game : mijnGames)
             if (naam.equals(game.getNaam()))
                 return game;
         return null;
     }
 
+    public ArrayList<Game> bepaalGamesNietInBezit(ArrayList<Game> games) {
+        ArrayList<Game> bepaalGamesNietInBezit = new ArrayList<>();
+        for (Game game : games) {
+            if(!mijnGames.contains(game))
+                bepaalGamesNietInBezit.add(game);
+        }
+        return bepaalGamesNietInBezit;
+    }
+
     @Override
     public String toString() {
         String str = String.format("%s heeft een budget van €%.2f en bezit de volgende games:", naam, budget);
-        for (Game game: mijnGames) {
+        for (Game game : mijnGames) {
             str += "\n" + game.toString();
         }
         return str;
